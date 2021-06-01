@@ -435,16 +435,3 @@ unalias
 
 - system-wide bashrc: /etc/bash.bashrc
 - any user's bashrc: ~/.bashrc
-
-
-
-
-
-
-
-
-
-
-
-
-
