@@ -363,20 +363,78 @@ ps -fC leafpad | awk '$2 ~ "^[0-9]+$" {print $2}' | xargs kill -9
 
 1. tail
 
-# TODO: continue
+```bash
+# continuously updates the output
+tail -f xxxxxx
 
+# output the last xxx number of lines
+tail -n xxx
+```
 
+2. watch
 
+```bash
+watch -n x `command`
+```
 
+### Downloading Files
 
+1. wget
 
+```bash
+wget http|https|ftp|...://uri -O destination
+```
 
+2. curl
+ 
+supports IMAP/S, POP3/S, SCP, SFTP, SMB/S, SMTP/S, TELNET, TFTP ...
 
+3. axel
 
+```bash
+axel -a -n 20 -o xxxx https://uri
+```
 
+### Customizing the Bash Environment
 
+1. Bash History Customization
 
+```bash
+# remove dumplicate commands, commands that begin with spaces from history
+export HISTCONTROL=ignoredups
 
+# filtering out commands
+export HISTIGNORE="&:ls:[bf]g:exit:history"
+
+# control date and/or time stamps in the output of the history
+export HISTTIMEFORMAT='%F %T '
+
+# %F: Year-Month-Day ISO-8601  format
+# %T: 24-hour time
+
+# history length
+
+export HISTSIZE=n
+export HISTFILESIZE=n
+
+```
+
+2. alias
+
+```bash
+alias ll='ls -alh'
+
+# alias without any arguments can see the list of alias
+alias 
+
+# delete
+unalias
+```
+
+3. Persistent Bash Customization
+
+- system-wide bashrc: /etc/bash.bashrc
+- any user's bashrc: ~/.bashrc
 
 
 
