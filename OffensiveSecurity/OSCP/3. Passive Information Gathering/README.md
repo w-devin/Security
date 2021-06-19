@@ -75,3 +75,84 @@ tips:
 1. 有些 module 需要各种api key, 如何设置可以参考 [这里](https://github.com/Raikia/Recon-NG-API-Key-Creation/blob/master/README-v4.8.3.md)
 2. OSCP 中, 提到使用 google_site_web, 但是由于众所周知的原因, 国内无法使用; 除此之外, google 也有难以绕过的 recaptcha: `google recaptcha triggered. no bypass available.`, 所以推荐 bing_domain_web
 
+
+## Open-Source Code
+
+online code repositories, such as GitHub, GitLab, SourceForge
+
+github's search doc: https://help.github.com/en/github/searching-for-information-on-github/searching-code
+
+tools: 
+
+- [Gitrob](https://github.com/michenriksen/gitrob)
+- [Gitleaks](https://github.com/zricethezav/gitleaks)
+- recon-ng github modules
+
+tips:
+1. 目前来看, Gitrob 更好用一些, 因为它可以以(批量)git账号作为扫描目标,且有较为直观的web界面; Gitleaks 仅以仓库作为扫描目标
+
+
+## Shodan
+
+https://www.shodan.io/
+
+TODO: 补充 shodan 语法
+
+
+## Security Headers Scanner
+
+https://securityheaders.com/
+
+安全头相关:
+    - https://blog.csdn.net/myle69/article/details/83747018
+    - https://www.codercto.com/a/34171.html
+
+## SSL Server Test
+
+https://www.ssllabs.com/ssltest/
+
+TODO: TLS vulnerabilities Poodle, Heartbleed
+
+
+## Patstbin
+
+https://pastebin.com/
+
+https://paste.ubuntu.com/
+
+## User Information Gathering
+
+1. Email Harvesting
+
+[theHarvester](https://github.com/laramies/theHarvester)
+
+```bash
+theHarvester -d <DOMAIN> -b <ENGINE>
+```
+
+2. Password Dumps
+
+kali 内置字典 rockyou, 可通过 locate 查找路径, 该路径也有其他材料
+
+## Social Media Tools
+
+1. Social-Searcher
+
+https://www.social-searcher.com
+
+
+## Stack Overflow
+
+https://stackoverflow.com/
+
+## Information Gathering Frameworks
+
+1. OSINT Framework
+
+https://osintframework.com/
+
+2. Maltego
+
+https://www.paterva.com/buy/maltego-clients.php
+
+https://www.youtube.com/watch?v=zemNLx0-LRw
