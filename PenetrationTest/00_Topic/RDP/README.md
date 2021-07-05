@@ -37,16 +37,20 @@ msf: post/windows/manage/enable_rdp
 ### 2. 连接
 
 windows:
+
     - mstsc.exe
     - MobaXterm
     - ...
 
 Linux:
+
     - rdesktop
 
 ### 3. 查询当前客户端远程历史
 
 ## 0x02 连接历史查询
+
+这里取了 [三好学生的博客](https://3gstudent.github.io/) 的内容
 
 1. 获取当前账号的历史记录
 
@@ -193,14 +197,14 @@ tips: 如果系统远程桌面勾选了`仅允许运行时使用网络级别身�
 
 ![登录失败界面](assets/RDP_login_failed.png)
 
-但是如果我们收集到的账号密码被改掉了, 或者防止被发现的情况下, 最好是希望不登录就能进入远程桌面, 需要同时设置 UserAuthentication 和 SecurityLayer为0
+但是如果我们收集到的账号密码被改掉了, 或者为了减小被发现的风险, 最好是希望不登录就能进入远程桌面, 需要同时设置 UserAuthentication 和 SecurityLayer为0
 
 ```bash
 reg add "HKLM\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v UserAuthentication /t REG_DWORD /d 0
 reg add "HKLM\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v SecurityLayer /t REG_DWORD /d 0
 ```
 
-此种文件替换的方式, 只对老一些版本的系统有效, 而较新版本的系统， 比如 win10, win server 2019, 则会报操作需要 `TrustedInstaller` 权限
+此种文件替换的方式, 只对老一些版本的系统有效, 而较新版本的系统， 比如 win10, win server 2019, 则会报操作需要 `TrustedInstaller` 权限, 此时就需要用到下面的 辅助功能镜像劫持
 
 ![TrustedInstaller](assets/sethc_edit_TrustedInstaller_win_server_2019.png)
 
