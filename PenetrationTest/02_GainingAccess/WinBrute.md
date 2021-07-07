@@ -2,7 +2,7 @@
 
 这是一个 `delphi` 编写的 windows 本地爆破工具, 可用于本地账号爆破和域账号爆破. 一般用于在低权限时的提权
 
-![项目地址](https://github.com/stascorp/WinBrute)
+[项目地址](https://github.com/stascorp/WinBrute)
 
 ## 0x00 总结
 
