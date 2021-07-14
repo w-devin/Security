@@ -261,3 +261,5 @@ registry_setvaldata(target_key, DEBUG_REG_VALUE, command, 'REG_SZ')
 5. [Windows权限维持总结](https://mp.weixin.qq.com/s/MKN5JOiOg-Iwqztfmn2P7g)
 6. [ATT&CK T1546.012](https://attack.mitre.org/techniques/T1546/012/)
 7. [3gstudent_渗透技巧——Windows系统的帐户隐藏](https://3gstudent.github.io/%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7-Windows%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%B8%90%E6%88%B7%E9%9A%90%E8%97%8F)
+8. [内网渗透测试：初探远程桌面的安全问题](https://www.freebuf.com/articles/network/276242.html)
+   
