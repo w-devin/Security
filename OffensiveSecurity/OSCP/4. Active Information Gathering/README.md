@@ -133,3 +133,113 @@ nmap --script-help script_name
 ```bash
 masscan -p 80 sub_net --rate=1000 -e eth0 --router-ip router_ip
 ```
+
+## SMB Enumeration
+
+1. Scanning for the NetBIOS Service
+
+```bash
+nmap -v -p 139,445 target_ips
+
+# -r to specify the originating UDP port as 137
+nbtscan -r target_sub_net
+```
+
+2. Nmap SMB NSE Scripts
+
+list smb scripts
+
+```bash
+(base) root@kali:/home/jarvis# ls -l /usr/share/nmap/scripts/smb*
+-rw-r--r-- 1 root root  3355 Oct 12  2020 /usr/share/nmap/scripts/smb2-capabilities.nse
+-rw-r--r-- 1 root root  3075 Oct 12  2020 /usr/share/nmap/scripts/smb2-security-mode.nse
+-rw-r--r-- 1 root root  1447 Oct 12  2020 /usr/share/nmap/scripts/smb2-time.nse
+-rw-r--r-- 1 root root  5238 Oct 12  2020 /usr/share/nmap/scripts/smb2-vuln-uptime.nse
+-rw-r--r-- 1 root root 45138 Oct 12  2020 /usr/share/nmap/scripts/smb-brute.nse
+-rw-r--r-- 1 root root  5289 Oct 12  2020 /usr/share/nmap/scripts/smb-double-pulsar-backdoor.nse
+-rw-r--r-- 1 root root  4840 Oct 12  2020 /usr/share/nmap/scripts/smb-enum-domains.nse
+-rw-r--r-- 1 root root  5971 Oct 12  2020 /usr/share/nmap/scripts/smb-enum-groups.nse
+-rw-r--r-- 1 root root  8043 Oct 12  2020 /usr/share/nmap/scripts/smb-enum-processes.nse
+-rw-r--r-- 1 root root 27274 Oct 12  2020 /usr/share/nmap/scripts/smb-enum-services.nse
+-rw-r--r-- 1 root root 12097 Oct 12  2020 /usr/share/nmap/scripts/smb-enum-sessions.nse
+-rw-r--r-- 1 root root  6923 Oct 12  2020 /usr/share/nmap/scripts/smb-enum-shares.nse
+-rw-r--r-- 1 root root 12527 Oct 12  2020 /usr/share/nmap/scripts/smb-enum-users.nse
+-rw-r--r-- 1 root root  1706 Oct 12  2020 /usr/share/nmap/scripts/smb-flood.nse
+-rw-r--r-- 1 root root  7471 Oct 12  2020 /usr/share/nmap/scripts/smb-ls.nse
+-rw-r--r-- 1 root root  8758 Oct 12  2020 /usr/share/nmap/scripts/smb-mbenum.nse
+-rw-r--r-- 1 root root  8220 Oct 12  2020 /usr/share/nmap/scripts/smb-os-discovery.nse
+-rw-r--r-- 1 root root  4982 Oct 12  2020 /usr/share/nmap/scripts/smb-print-text.nse
+-rw-r--r-- 1 root root  1831 Oct 12  2020 /usr/share/nmap/scripts/smb-protocols.nse
+-rw-r--r-- 1 root root 63596 Oct 12  2020 /usr/share/nmap/scripts/smb-psexec.nse
+-rw-r--r-- 1 root root  5190 Oct 12  2020 /usr/share/nmap/scripts/smb-security-mode.nse
+-rw-r--r-- 1 root root  2424 Oct 12  2020 /usr/share/nmap/scripts/smb-server-stats.nse
+-rw-r--r-- 1 root root 14159 Oct 12  2020 /usr/share/nmap/scripts/smb-system-info.nse
+-rw-r--r-- 1 root root  7524 Oct 12  2020 /usr/share/nmap/scripts/smb-vuln-conficker.nse
+-rw-r--r-- 1 root root  6402 Oct 12  2020 /usr/share/nmap/scripts/smb-vuln-cve2009-3103.nse
+-rw-r--r-- 1 root root 23154 Oct 12  2020 /usr/share/nmap/scripts/smb-vuln-cve-2017-7494.nse
+-rw-r--r-- 1 root root  6545 Oct 12  2020 /usr/share/nmap/scripts/smb-vuln-ms06-025.nse
+-rw-r--r-- 1 root root  5386 Oct 12  2020 /usr/share/nmap/scripts/smb-vuln-ms07-029.nse
+-rw-r--r-- 1 root root  5688 Oct 12  2020 /usr/share/nmap/scripts/smb-vuln-ms08-067.nse
+-rw-r--r-- 1 root root  5647 Oct 12  2020 /usr/share/nmap/scripts/smb-vuln-ms10-054.nse
+-rw-r--r-- 1 root root  7214 Oct 12  2020 /usr/share/nmap/scripts/smb-vuln-ms10-061.nse
+-rw-r--r-- 1 root root  7344 Oct 12  2020 /usr/share/nmap/scripts/smb-vuln-ms17-010.nse
+-rw-r--r-- 1 root root  4400 Oct 12  2020 /usr/share/nmap/scripts/smb-vuln-regsvc-dos.nse
+-rw-r--r-- 1 root root  6586 Oct 12  2020 /usr/share/nmap/scripts/smb-vuln-webexec.nse
+-rw-r--r-- 1 root root  5084 Oct 12  2020 /usr/share/nmap/scripts/smb-webexec-exploit.nse
+```
+
+use them
+
+```bash
+nmap -v -p 139,445 --script=smb-os-discovery.nse target_ips
+```
+
+## NFS Enumeration
+
+1. Scanning for NFS Shares
+
+```bash
+nmap -v -p 111 target_ips
+
+nmap -sV -p 111 --script=rpcinfo target_ips
+```
+
+## SMTP Enumeration
+
+`VRFY` request asks the server to verify an email address
+`EXPN` asks the server for the membership of a mailing list
+
+## SNMP Enumeration
+
+1. scanning for SNMP
+
+```bash
+sudo nmap -sU --open -p 161 target_ips
+echo public > community
+echo private >> community
+echo manager >> community
+for ip in $(seq 1 254); do echo 10.11.1.$ip; done > ips
+onesixtyone -c community -i ips
+```
+
+2. Windows SNMP Enumeration
+
+Windows SNMP MIB values
+
+| MIB   | desc  |
+| :---: | :---: |
+| 1.3.6.1.2.1.25.1.6.0      | System Processes  |
+| 1.3.6.1.2.1.25.4.2.1.2    | Running Programs  |
+| 1.3.6.1.2.1.25.4.2.1.4    | Processes Path    |
+| 1.3.6.1.2.1.25.2.3.1.4    | Storage Units     |
+| 1.3.6.1.2.1.25.6.3.1.2    | Software Name     |
+| 1.3.6.1.4.1.77.1.2.25     | User Accounts     |
+| 1.3.6.1.2.1.6.13.1.3      | TCP Local Ports   |
+
+```bash
+# enumerating the Entire MIB Tree
+snmpwalk -c public -v1 -t 10 target_ips
+
+# Enumerating something
+snmpwalk -c public -v1 target_ip MIB_something_value
+```
