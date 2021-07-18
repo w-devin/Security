@@ -8,3 +8,7 @@
 
 [原项目](https://github.com/nerrorsec/GoogleDorker)
 [改进版-by safe6Sec](https://github.com/safe6Sec/GoogleDorker)
+
+### 子域名收集
+
+[OneForALL](https://github.com/shmilylty/OneForAll)
