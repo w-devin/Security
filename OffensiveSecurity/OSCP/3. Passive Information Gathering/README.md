@@ -156,3 +156,8 @@ https://osintframework.com/
 https://www.paterva.com/buy/maltego-clients.php
 
 https://www.youtube.com/watch?v=zemNLx0-LRw
+
+## Others
+
+https://mp.weixin.qq.com/s/FzWBaaVs2I7SEDhs94xeOQ
+
