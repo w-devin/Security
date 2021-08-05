@@ -54,3 +54,5 @@ emmmmm, 代码看的一言难尽
 1. [内网渗透-代理篇](https://mp.weixin.qq.com/s/mjie7AnPvnW0jRaEnkdddQ)
 2. [内网穿透姿势汇总](https://mp.weixin.qq.com/s/Syf0vQfElk5JERnoycKSsw)
 3. [MSF配合Ngrock穿透内网](https://mp.weixin.qq.com/s/g0iuHpiuuUN2AOQAkMcJ2Q)
+4. [内网隧道工具SPP尝鲜](https://mp.weixin.qq.com/s/zY9T-t86Dpw07SecABPuug)
+5. [利用 ssh 隧道反弹 shell](https://paper.seebug.org/1022/)

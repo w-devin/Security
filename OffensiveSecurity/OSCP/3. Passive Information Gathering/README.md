@@ -159,5 +159,6 @@ https://www.youtube.com/watch?v=zemNLx0-LRw
 
 ## Others
 
-https://mp.weixin.qq.com/s/FzWBaaVs2I7SEDhs94xeOQ
+[Knockpy子域扫描工具](https://mp.weixin.qq.com/s/I_5lOlatKyMKnO-OBfw4jg)
+[红队攻防之信息收集总结-LemonSec](https://mp.weixin.qq.com/s/FzWBaaVs2I7SEDhs94xeOQ)
 
