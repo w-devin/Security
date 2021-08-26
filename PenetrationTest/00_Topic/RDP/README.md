@@ -273,4 +273,5 @@ https://github.com/nccgroup/SocksOverRDP
 7. [3gstudent_渗透技巧——Windows系统的帐户隐藏](https://3gstudent.github.io/%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7-Windows%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%B8%90%E6%88%B7%E9%9A%90%E8%97%8F)
 8. [内网渗透测试：初探远程桌面的安全问题](https://www.freebuf.com/articles/network/276242.html)
 9. [横向移动中RDP协议的利用](https://mp.weixin.qq.com/s/Ht7Hj5pUkdmogtv18G3jUQ)
+10. [内网渗透｜基于文件传输的 RDP 反向攻击](https://www.wangan.com/p/7fygf7c8abb0b427)
    

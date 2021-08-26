@@ -342,7 +342,7 @@
 		{
 			"techniqueID": "T1218",
 			"tactic": "defense-evasion",
-			"color": "",
+			"color": "#fc3b3b",
 			"comment": "",
 			"enabled": true,
 			"metadata": [],
@@ -432,6 +432,24 @@
 		{
 			"techniqueID": "T1102",
 			"tactic": "command-and-control",
+			"color": "",
+			"comment": "",
+			"enabled": true,
+			"metadata": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1110",
+			"tactic": "credential-access",
+			"color": "",
+			"comment": "",
+			"enabled": true,
+			"metadata": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1078",
+			"tactic": "initial-access",
 			"color": "",
 			"comment": "",
 			"enabled": true,
