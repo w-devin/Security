@@ -101,4 +101,6 @@ pass
 > 本人在复现时, 无论是 x86 还是 x64 的payload均失败, 即使shellcode通过shell loader加载执行没问题
 > 复现耗时过长, 先行跳过, 后续姿势提升了再做尝试
 
+## 0x07 Linux Buffer Overflows
 
+跟windows端的很相似, pass
