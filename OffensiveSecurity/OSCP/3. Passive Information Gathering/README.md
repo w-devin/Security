@@ -34,7 +34,10 @@ www.netcraft.com
 
 ## Recon-ng
 
-新版的 Recon-ng, 打开会提醒 '[*] No modules enabled/installed.', 此时可以通过在 Recon-ng 的 shell中执行 `marketplace install all` 来安装 modules, 当然最好是按需安装, 全安装的话, 很多模块会报key的缺失
+新版的 Recon-ng, 打开会提醒 `[*] No modules enabled/installed.`, 此时可以通过在 Recon-ng 的 shell中执行 `marketplace install all` 来安装 modules, 当然最好是按需安装, 全安装的话, 很多模块会报key的缺失
+
+如果 `marketpalce install all` 报： `Invalid module path.` 
+需要执行一下 `marketplace refresh`
 
 > 安装源是github, 所以如果安装失败的话, 需要一点技术手段来解决
 > 如果还不行的话, 可以尝试执行：
