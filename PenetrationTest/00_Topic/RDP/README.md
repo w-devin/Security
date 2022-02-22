@@ -258,6 +258,16 @@ https://github.com/nccgroup/SocksOverRDP
 https://github.com/nccgroup/SocksOverRDP
 参考[引用9]
 
+## 0x09 Others
+
+记录一些奇奇怪怪的问题
+
+1. 注册表获取 rdp 端口问题
+
+@in12hacker 老哥通过 `REG_PATH\Wds\\rdpwd\\Tds\\tcp` 获取 本机 rdp 端口, 发现有错误的情况. 测试发现 修改 `REG_PATH\WinStations\RDP-Tcp` 未必会导致 `REG_PATH\Wds\\rdpwd\\Tds\\tcp` 发生更改, 但单独修改两个值, 都可以成功改变rdp端口.
+
+所以 `REG_PATH\WinStations\RDP-Tcp` 可信度更高一些
+
 ## 0x0n reference
 
 1. [Microsoft-Windows-TerminalServices-RDP-WinStationExtensions](https://docs.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/microsoft-windows-terminalservices-rdp-winstationextensions)
