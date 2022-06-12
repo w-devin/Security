@@ -67,8 +67,8 @@
 11. 系统引导与恶意软件的关联
 
     1. 在计算机引导阶段获得控制权 Bootkit(BIOS木马, MBR木马)， CIH病毒
-    2. 在系统启动阶段获取控制权
-    3. 在应用程序执行阶段获得控制权
+    2. 在系统启动阶段获取控制权, 一般为依赖系统自启动相关机制的独立程序
+    3. 在应用程序执行阶段获得控制权, 最常见的文件感染型病毒启动方法
 
 ## 80X86 处理器的工作模式
 
@@ -115,7 +115,7 @@
 1. 32位, 虚拟地址空间最大4G
 
     - [默认] 2G用户进程空间(低端 x0000 0000 - x7fff ffff), 2G系统空间(受保护, 高端 x8000 0000, xfff ffff)
-    - [/3GB开关实现] 3G 用户空间, 1G系统空间
+    - [/3GB系统启动时的开关实现] 3G 用户空间, 1G系统空间
 
 2. 64位
 
@@ -142,10 +142,12 @@
 
 6. windows分页机制
 
-    - x86 windows 默认使用二级页表把虚拟地址转译为物理地址， 32位地址被划分为3个单独部分：页目录索引， 页表索引和字节索引
-    - x86 系统上默认页面大小为4k， 故页内字节索引宽度为12位
+    - x86 windows 默认使用二级页表把虚拟地址转译为物理地址, 32位地址被划分为3个单独部分：页目录索引, 页表索引和字节索引
+    - x86 系统上默认页面大小为4k, 故页内字节索引宽度为12位
 
 #### 地址与物理地址的转换
+
+![虚拟地址到物理地址的转换](Resource/Snipaste_2022-06-03_21-41-24.png)
 
 1. 虚拟地址转译到物理地址的过程
 
@@ -154,14 +156,28 @@
         - 页目录(Page Directiory): 通过 CR3 寄存器获得页目录基地址(物理地址)
         - PDE: Page Directory Entry, 页目录项
         - PTE: Page Table Entry, 页表项, 指向虚拟页面所对应物理页的物理地址
-        - PFN: Page Frame Number, 页帧号
+        - PFN: Page Frame Number, 页帧号, 低12位为页数性, 高20位为页帧号, 表示对应的物理页
         - CR3 寄存器: 指向页目录基地址的物理地址, 又页目录基地址寄存器PDBR(Page-Directory Base address Register)
-        - 32位系统中的CR3寄存器, 低12位置零, 低12存储页属性
-        - PS = 1, 则为4M分页, 否则为4k分页
+        - 32位系统中的CR3寄存器, 低12位置零, 也是4k对齐的, [](https://blog.csdn.net/SweeNeil/article/details/106171361)
+        - PTE 第7位, PS = 1, 则为4M分页, 否则为4k分页
         - PAE, Physical Address Extension, 物理地址扩展
+        - VPN, Virtual Page Number
+        - VPO, Virtual Page Offset
+        - PTBR, Page Table Base Register
+        - PPN, Physical Page Number
+        - TLB, Translation Lookaside Buffer, in MMU
+        - Windbg 输入 !process 0 0 看到的 DirBase 一项即CR3
+        - 如果物理内存大于4G
+          - intel在处理器上把管脚数从32提升到36, 使内存寻址能力达到2^36=64G, 2(page-directory pointer table) + 9 + 9 + 12
+          - 引入新的分页机制, PAE(Physical Address Extension)
 
     2. 概念, 64位
         - 4级页表
+          - PML4T, Page Map Level4 Table
+          - PDPT, Page Directory Pointer Table
+          - PDT, Page Directory Table
+          - PT, Page Table, 表内为 PTE
+          - 9 + 9 + 9 + 9 + 12, 48bit
 
 ### Windows内存页面权限管理
 
@@ -184,6 +200,20 @@
     - Process32First/Next (at kernel32.dll)
     - Thread32First/Next (at kernel32.dll)
     - CreateToolhelp32Snapshot (at kernel32.dll)
+
+3. 内存中标志位含义
+
+    - P, present
+    - R/W, read/write
+    - U/S, user/supervisor
+    - PWT, write-through
+    - PCD, cache disabled
+    - A, Accessed
+    - 0, Reserved(set to 0)
+    - PS, Page size(0 indicates 4 kBytes)
+    - G, Global page(ignored)
+    - Avail, Available for system programmer's use 
+    - 64位系统设置了 执行权限位
 
 ## 磁盘的物理与逻辑结构
 
