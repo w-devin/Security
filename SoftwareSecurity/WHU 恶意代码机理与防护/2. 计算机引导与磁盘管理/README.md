@@ -219,12 +219,30 @@
 
 1. 硬盘物理结构 略
 2. 硬盘的逻辑结构
-   1. 寻址方式: CHS/LBA Cylinder/Head/Sector | Logical Block Address
+   1. 寻址方式1: CHS, Cylinder/Head/Sector
+      - Heads, 8 bit, 0-255
+      - Cylinders, 10 bit, 0-1023
+      - Sectors, 6 bit, 1-63, 512 bytes per sector usually
+      - max, 256 * 1024 * 63 * 512 / 2^20
+   2. 寻址方式2: LBA, Logical Block Address, 一般由硬盘固件将 LBA地址转为CHS
 
 3. 硬盘分析工具： WinHex, 准确来讲， 是windows hex工具
 4. 第一个扇区为主引导程度， 以 0x55AA结束
-5. MBR 分区
-6. GPT 分区， 超过4个主分区， 单分区容量大于2TB
+5. 主引导扇区, 位于硬盘第一个扇区
+   1. MBR 分区
+      - 0H-1BDH, MBR, Master BOOT RECORD 引导程序
+      - 64 bytes, DPT, Disk Partition Table, 16 bytes per partition, max 4 main partition
+      - last 2 bytes, 1FEH-1FFH, "55 AA"
+      - DBR, DOS BOOT RECORD, 以FAT32分区上为例
+        - 0x00, 3 bytes, EB 58 90 跳转指令
+        - 0x03, 8 bytes, 厂商标志和os版本号
+        - 0x0b, 53 bytes, BPB
+        - 0x40, 26 bytes, 扩展 BPB
+        - 0x5A, 420 bytes, 引导程序代码
+        - 0x01FE, 2 bytes， 55 AA, 有效结束标志
+   2. GPT 分区， 超过4个主分区， 单分区容量大于2TB
+      - LBA, Logic BLock Address
+      - 0x1c2 取 EE 时, 表示为 GPT 分区, partition type
 
 ## FAT32文件系统及数据恢复
 
@@ -239,6 +257,61 @@
     - 表项大小: FAT32, 32位, 4字节. 最大簇号空间为4G
 3. 簇链: 一个文件所占用簇的序号， 形成的单向链表. 实现方式: 在文件占用簇的对应簇号的FAT项， 填写下一个簇的簇号， 如果为最后一簇，则数据结束标识符"FFFFFF0F"
 
+### 文件的存储和删除
+
+![目录项含义](./Resource/Snipaste_2022-06-15_04-04-24.png)
+
+1. 存储
+   - 根据要存储的文件大小, 定位足够的空簇
+   - 创建文件目录项, 32+ bytes
+   - 在FAT中构建簇链表
+   - 在对应分配的簇中写入数据
+
+2. 删除
+   - 文件名首位 41 -> E5
+   - 首簇*高位*清零
+   - 粗链表清零
+   - 文件内容并没有改变
+
+3. 恢复
+   - 还原文件名首字节
+     - 长文件名: 直接逆向定位完整文件名
+   - 确定高位并还原
+     - 参考相邻目录项的首簇高位
+     - 从0往上试探, 查看首簇指向内容是否为预期文件头部
+   - 修复FAT表簇链(不是很严谨, 存在理想假设)
+     - 通过文件大小计算文件所占簇数
+     - 按照连续存储假设, 进行簇链修补, 其中末簇FAT项用 OF FF FF FF 结尾
+
 ## NTFS文件系统
 
+略
+
 ## 程序的二进制表示
+
+### 源代码与可执行文件
+
+1. 编译过程, 略
+
+### 源代码的高级语义到指令的转换
+
+1. x86 体系结构及其指令集
+    - 各种寄存器, 略
+    - AT&T语法, 是 linux & gcc 默认的汇编语法, 与 intel 相比, 源与目的的操作数方向相反
+    - IA-32常用指令类型
+      - 传送指令
+        - 通用数据传送指令, MOV(movb, movw, movl), XCHG
+        - 地址传送指令, LEA(leal)
+      - 出入栈, push, pop, call, ret, leave
+      - 算数运算
+2. 赋值, 跳转, 计算等源码语句转换
+3. 函数/过程调用的实现, 涉及到缓冲区溢出
+   1. cdecl, c/c++, linux/gcc的默认调用方式, 参数从右往左压栈, 调用者函数维护栈的平衡
+   2. stdcall, pascal, win32 api的默认调用方式, 参数从右往左压栈, 被调用者函数维护栈帧平衡
+
+
+## References
+
+1. [winHex数据恢复（第一篇）](https://www.freebuf.com/articles/database/325852.html)
+2. [bilibili/CodeSong/Winhex底层数据恢复](https://space.bilibili.com/368329297/channel/seriesdetail?sid=1746025)
+3. [csapp/虚拟内存](https://hansimov.gitbook.io/csapp/part2/ch09-virtual-memory)
