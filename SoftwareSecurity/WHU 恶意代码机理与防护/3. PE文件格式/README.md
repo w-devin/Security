@@ -54,10 +54,25 @@
        - ...
 4. Section table, 紧邻PE Header, 每一节对应一个节表项
 5. Sections, 常见节类型:
-   - .text, 代码节
-   - .data, 数据节
-   - .rdata
-   - .bss
+   - .text|CODE, 代码节, 含有程序的可执行代码, 每个PE文件都有代码节
+   - .data|DATA, 数据节, 已初始化的数据节中放的是编译时就确定的数据
+   - .rdata, 引入函数节, 只保留了函数信息, 函数名, 其驻留的DLL名等
+     - IMPORT Address Table
+     - IMPORT Directory Table, IMAGE_OPTIONAL_HEADERS/Directory/IMPORT TABLE 记录了 IDT 在内存中的位置 RVA
+       - IMAGE_THUNK_DATA
+         - Import Name Table RVA, 4 bytes
+           - Characteristics,
+           - OriginalFirstThunk,
+         - Time Date Stamp, 4 bytes
+         - Forwarder Chain, 4 bytes
+         - Name RVA, 4 bytes, dll 文件名字符串的RVA
+         - Import Address Table RVA, 4 bytes
+       - 最后以一个全0的 IMAGE_THUNK_DATA 作为 IDT 结束
+     - IMPORT Name Table
+       - Hint/Name RVA, 最高位为0, 表示通过函数名引入, 为1, 通过序号引入
+       - End of Imports
+     - IMPORT Hints/Names & DLL Names
+   - .bss, 未初始化的数据节, 一般为未初始化的全局变量和静态变量， eg. `static int k;`
    - .idata
    - .CRT
    - .tls
